@@ -1,6 +1,7 @@
+
 # -*- coding: utf-8 -*- 
-import linepy
-from linepy import *
+import LINEPY
+from LINEPY import *
 from akad.ttypes import *
 from multiprocessing import Pool, Process
 from time import sleep
@@ -8,32 +9,32 @@ import pytz, datetime, pafy, time, timeit, random, sys, ast, re, os, json, subpr
 from datetime import timedelta, date
 from datetime import datetime
 from bs4 import BeautifulSoup
+from googletrans import Translator
 import youtube_dl
 
 cl = LineClient()
-#cl = LineClient(authToken='MASUKAN TOKENMU DISINI')
+#cl = LineClient(authToken='YOUR TOKEN')
 cl.log("Auth Token : " + str(cl.authToken))
 channel = LineChannel(cl)
 cl.log("Channel Access Token : " + str(channel.channelAccessToken))
 
 ki = LineClient()
-#ki = LineClient(authToken='MASUKAN TOKENMU DISINI')
+#ki = LineClient(authToken='YOUR TOKEN')
 ki.log("Auth Token : " + str(ki.authToken))
 channel1 = LineChannel(ki)
 ki.log("Channel Access Token : " + str(channel1.channelAccessToken))
 
 kk = LineClient()
-#kk = LineClient(authToken='MASUKAN TOKENMU DISINI')
+#kk = LineClient(authToken='YOUR TOKEN')
 kk.log("Auth Token : " + str(kk.authToken))
 channel2 = LineChannel(kk)
 kk.log("Channel Access Token : " + str(channel2.channelAccessToken))
 
 kc = LineClient()
-#kc = LineClient(authToken='MASUKAN TOKENMU DISINI')
+#kc = LineClient(authToken='YOUR TOKEN')
 kc.log("Auth Token : " + str(kc.authToken))
 channel3 = LineChannel(kc)
 kc.log("Channel Access Token : " + str(channel3.channelAccessToken))
-
 poll = LinePoll(cl)
 call = cl
 creator = ["ud296655acef67cbd5e8208e63629f78b"]
@@ -2754,7 +2755,6 @@ def bot(op):
 #===========JOIN TICKET============#
                         elif "/ti/g/" in msg.text.lower():
                           if wait["selfbot"] == True:
-                            if msg._from in admin:
                               if settings["autoJoinTicket"] == True:
                                  link_re = re.compile('(?:line\:\/|line\.me\/R)\/ti\/g\/([a-zA-Z0-9_-]+)?')
                                  links = link_re.findall(text)
@@ -2775,7 +2775,7 @@ def bot(op):
                                      group3 = kc.findGroupByTicket(ticket_id)
                                      kc.acceptGroupInvitationByTicket(group3.id,ticket_id)
                                      kc.sendMessage(msg.to, "Masuk : %s" % str(group.name))
-                                     
+
     except Exception as error:
         print (error)
 
@@ -2785,8 +2785,11 @@ while True:
         ops = poll.singleTrace(count=50)
         if ops is not None:
             for op in ops:
+               # bot(op)
+                # Don't remove this line, if you wan't get error soon!
                 poll.setRevision(op.revision)
                 thread1 = threading.Thread(target=bot, args=(op,))#self.OpInterrupt[op.type], args=(op,)
+                #thread1.daemon = True
                 thread1.start()
                 thread1.join()
     except Exception as e:
