@@ -16,30 +16,32 @@ from thrift.transport import TTransport
 
 
 class Iface(object):
-    def getSnsFriends(self, snsIdType, snsAccessToken, startIdx, limit):
+    def checkUserAge(self, carrier, sessionId, verifier, standardAge):
         """
         Parameters:
-         - snsIdType
-         - snsAccessToken
-         - startIdx
-         - limit
+         - carrier
+         - sessionId
+         - verifier
+         - standardAge
         """
         pass
 
-    def getSnsMyProfile(self, snsIdType, snsAccessToken):
+    def checkUserAgeWithDocomo(self, openIdRedirectUrl, standardAge, verifier):
         """
         Parameters:
-         - snsIdType
-         - snsAccessToken
+         - openIdRedirectUrl
+         - standardAge
+         - verifier
         """
         pass
 
-    def postSnsInvitationMessage(self, snsIdType, snsAccessToken, toSnsUserId):
+    def retrieveOpenIdAuthUrlWithDocomo(self):
+        pass
+
+    def retrieveRequestToken(self, carrier):
         """
         Parameters:
-         - snsIdType
-         - snsAccessToken
-         - toSnsUserId
+         - carrier
         """
         pass
 
@@ -51,29 +53,29 @@ class Client(Iface):
             self._oprot = oprot
         self._seqid = 0
 
-    def getSnsFriends(self, snsIdType, snsAccessToken, startIdx, limit):
+    def checkUserAge(self, carrier, sessionId, verifier, standardAge):
         """
         Parameters:
-         - snsIdType
-         - snsAccessToken
-         - startIdx
-         - limit
+         - carrier
+         - sessionId
+         - verifier
+         - standardAge
         """
-        self.send_getSnsFriends(snsIdType, snsAccessToken, startIdx, limit)
-        return self.recv_getSnsFriends()
+        self.send_checkUserAge(carrier, sessionId, verifier, standardAge)
+        return self.recv_checkUserAge()
 
-    def send_getSnsFriends(self, snsIdType, snsAccessToken, startIdx, limit):
-        self._oprot.writeMessageBegin('getSnsFriends', TMessageType.CALL, self._seqid)
-        args = getSnsFriends_args()
-        args.snsIdType = snsIdType
-        args.snsAccessToken = snsAccessToken
-        args.startIdx = startIdx
-        args.limit = limit
+    def send_checkUserAge(self, carrier, sessionId, verifier, standardAge):
+        self._oprot.writeMessageBegin('checkUserAge', TMessageType.CALL, self._seqid)
+        args = checkUserAge_args()
+        args.carrier = carrier
+        args.sessionId = sessionId
+        args.verifier = verifier
+        args.standardAge = standardAge
         args.write(self._oprot)
         self._oprot.writeMessageEnd()
         self._oprot.trans.flush()
 
-    def recv_getSnsFriends(self):
+    def recv_checkUserAge(self):
         iprot = self._iprot
         (fname, mtype, rseqid) = iprot.readMessageBegin()
         if mtype == TMessageType.EXCEPTION:
@@ -81,34 +83,36 @@ class Client(Iface):
             x.read(iprot)
             iprot.readMessageEnd()
             raise x
-        result = getSnsFriends_result()
+        result = checkUserAge_result()
         result.read(iprot)
         iprot.readMessageEnd()
         if result.success is not None:
             return result.success
         if result.e is not None:
             raise result.e
-        raise TApplicationException(TApplicationException.MISSING_RESULT, "getSnsFriends failed: unknown result")
+        raise TApplicationException(TApplicationException.MISSING_RESULT, "checkUserAge failed: unknown result")
 
-    def getSnsMyProfile(self, snsIdType, snsAccessToken):
+    def checkUserAgeWithDocomo(self, openIdRedirectUrl, standardAge, verifier):
         """
         Parameters:
-         - snsIdType
-         - snsAccessToken
+         - openIdRedirectUrl
+         - standardAge
+         - verifier
         """
-        self.send_getSnsMyProfile(snsIdType, snsAccessToken)
-        return self.recv_getSnsMyProfile()
+        self.send_checkUserAgeWithDocomo(openIdRedirectUrl, standardAge, verifier)
+        return self.recv_checkUserAgeWithDocomo()
 
-    def send_getSnsMyProfile(self, snsIdType, snsAccessToken):
-        self._oprot.writeMessageBegin('getSnsMyProfile', TMessageType.CALL, self._seqid)
-        args = getSnsMyProfile_args()
-        args.snsIdType = snsIdType
-        args.snsAccessToken = snsAccessToken
+    def send_checkUserAgeWithDocomo(self, openIdRedirectUrl, standardAge, verifier):
+        self._oprot.writeMessageBegin('checkUserAgeWithDocomo', TMessageType.CALL, self._seqid)
+        args = checkUserAgeWithDocomo_args()
+        args.openIdRedirectUrl = openIdRedirectUrl
+        args.standardAge = standardAge
+        args.verifier = verifier
         args.write(self._oprot)
         self._oprot.writeMessageEnd()
         self._oprot.trans.flush()
 
-    def recv_getSnsMyProfile(self):
+    def recv_checkUserAgeWithDocomo(self):
         iprot = self._iprot
         (fname, mtype, rseqid) = iprot.readMessageBegin()
         if mtype == TMessageType.EXCEPTION:
@@ -116,36 +120,27 @@ class Client(Iface):
             x.read(iprot)
             iprot.readMessageEnd()
             raise x
-        result = getSnsMyProfile_result()
+        result = checkUserAgeWithDocomo_result()
         result.read(iprot)
         iprot.readMessageEnd()
         if result.success is not None:
             return result.success
         if result.e is not None:
             raise result.e
-        raise TApplicationException(TApplicationException.MISSING_RESULT, "getSnsMyProfile failed: unknown result")
+        raise TApplicationException(TApplicationException.MISSING_RESULT, "checkUserAgeWithDocomo failed: unknown result")
 
-    def postSnsInvitationMessage(self, snsIdType, snsAccessToken, toSnsUserId):
-        """
-        Parameters:
-         - snsIdType
-         - snsAccessToken
-         - toSnsUserId
-        """
-        self.send_postSnsInvitationMessage(snsIdType, snsAccessToken, toSnsUserId)
-        self.recv_postSnsInvitationMessage()
+    def retrieveOpenIdAuthUrlWithDocomo(self):
+        self.send_retrieveOpenIdAuthUrlWithDocomo()
+        return self.recv_retrieveOpenIdAuthUrlWithDocomo()
 
-    def send_postSnsInvitationMessage(self, snsIdType, snsAccessToken, toSnsUserId):
-        self._oprot.writeMessageBegin('postSnsInvitationMessage', TMessageType.CALL, self._seqid)
-        args = postSnsInvitationMessage_args()
-        args.snsIdType = snsIdType
-        args.snsAccessToken = snsAccessToken
-        args.toSnsUserId = toSnsUserId
+    def send_retrieveOpenIdAuthUrlWithDocomo(self):
+        self._oprot.writeMessageBegin('retrieveOpenIdAuthUrlWithDocomo', TMessageType.CALL, self._seqid)
+        args = retrieveOpenIdAuthUrlWithDocomo_args()
         args.write(self._oprot)
         self._oprot.writeMessageEnd()
         self._oprot.trans.flush()
 
-    def recv_postSnsInvitationMessage(self):
+    def recv_retrieveOpenIdAuthUrlWithDocomo(self):
         iprot = self._iprot
         (fname, mtype, rseqid) = iprot.readMessageBegin()
         if mtype == TMessageType.EXCEPTION:
@@ -153,21 +148,57 @@ class Client(Iface):
             x.read(iprot)
             iprot.readMessageEnd()
             raise x
-        result = postSnsInvitationMessage_result()
+        result = retrieveOpenIdAuthUrlWithDocomo_result()
         result.read(iprot)
         iprot.readMessageEnd()
+        if result.success is not None:
+            return result.success
         if result.e is not None:
             raise result.e
-        return
+        raise TApplicationException(TApplicationException.MISSING_RESULT, "retrieveOpenIdAuthUrlWithDocomo failed: unknown result")
+
+    def retrieveRequestToken(self, carrier):
+        """
+        Parameters:
+         - carrier
+        """
+        self.send_retrieveRequestToken(carrier)
+        return self.recv_retrieveRequestToken()
+
+    def send_retrieveRequestToken(self, carrier):
+        self._oprot.writeMessageBegin('retrieveRequestToken', TMessageType.CALL, self._seqid)
+        args = retrieveRequestToken_args()
+        args.carrier = carrier
+        args.write(self._oprot)
+        self._oprot.writeMessageEnd()
+        self._oprot.trans.flush()
+
+    def recv_retrieveRequestToken(self):
+        iprot = self._iprot
+        (fname, mtype, rseqid) = iprot.readMessageBegin()
+        if mtype == TMessageType.EXCEPTION:
+            x = TApplicationException()
+            x.read(iprot)
+            iprot.readMessageEnd()
+            raise x
+        result = retrieveRequestToken_result()
+        result.read(iprot)
+        iprot.readMessageEnd()
+        if result.success is not None:
+            return result.success
+        if result.e is not None:
+            raise result.e
+        raise TApplicationException(TApplicationException.MISSING_RESULT, "retrieveRequestToken failed: unknown result")
 
 
 class Processor(Iface, TProcessor):
     def __init__(self, handler):
         self._handler = handler
         self._processMap = {}
-        self._processMap["getSnsFriends"] = Processor.process_getSnsFriends
-        self._processMap["getSnsMyProfile"] = Processor.process_getSnsMyProfile
-        self._processMap["postSnsInvitationMessage"] = Processor.process_postSnsInvitationMessage
+        self._processMap["checkUserAge"] = Processor.process_checkUserAge
+        self._processMap["checkUserAgeWithDocomo"] = Processor.process_checkUserAgeWithDocomo
+        self._processMap["retrieveOpenIdAuthUrlWithDocomo"] = Processor.process_retrieveOpenIdAuthUrlWithDocomo
+        self._processMap["retrieveRequestToken"] = Processor.process_retrieveRequestToken
 
     def process(self, iprot, oprot):
         (name, type, seqid) = iprot.readMessageBegin()
@@ -184,13 +215,13 @@ class Processor(Iface, TProcessor):
             self._processMap[name](self, seqid, iprot, oprot)
         return True
 
-    def process_getSnsFriends(self, seqid, iprot, oprot):
-        args = getSnsFriends_args()
+    def process_checkUserAge(self, seqid, iprot, oprot):
+        args = checkUserAge_args()
         args.read(iprot)
         iprot.readMessageEnd()
-        result = getSnsFriends_result()
+        result = checkUserAge_result()
         try:
-            result.success = self._handler.getSnsFriends(args.snsIdType, args.snsAccessToken, args.startIdx, args.limit)
+            result.success = self._handler.checkUserAge(args.carrier, args.sessionId, args.verifier, args.standardAge)
             msg_type = TMessageType.REPLY
         except (TTransport.TTransportException, KeyboardInterrupt, SystemExit):
             raise
@@ -201,18 +232,18 @@ class Processor(Iface, TProcessor):
             msg_type = TMessageType.EXCEPTION
             logging.exception(ex)
             result = TApplicationException(TApplicationException.INTERNAL_ERROR, 'Internal error')
-        oprot.writeMessageBegin("getSnsFriends", msg_type, seqid)
+        oprot.writeMessageBegin("checkUserAge", msg_type, seqid)
         result.write(oprot)
         oprot.writeMessageEnd()
         oprot.trans.flush()
 
-    def process_getSnsMyProfile(self, seqid, iprot, oprot):
-        args = getSnsMyProfile_args()
+    def process_checkUserAgeWithDocomo(self, seqid, iprot, oprot):
+        args = checkUserAgeWithDocomo_args()
         args.read(iprot)
         iprot.readMessageEnd()
-        result = getSnsMyProfile_result()
+        result = checkUserAgeWithDocomo_result()
         try:
-            result.success = self._handler.getSnsMyProfile(args.snsIdType, args.snsAccessToken)
+            result.success = self._handler.checkUserAgeWithDocomo(args.openIdRedirectUrl, args.standardAge, args.verifier)
             msg_type = TMessageType.REPLY
         except (TTransport.TTransportException, KeyboardInterrupt, SystemExit):
             raise
@@ -223,18 +254,18 @@ class Processor(Iface, TProcessor):
             msg_type = TMessageType.EXCEPTION
             logging.exception(ex)
             result = TApplicationException(TApplicationException.INTERNAL_ERROR, 'Internal error')
-        oprot.writeMessageBegin("getSnsMyProfile", msg_type, seqid)
+        oprot.writeMessageBegin("checkUserAgeWithDocomo", msg_type, seqid)
         result.write(oprot)
         oprot.writeMessageEnd()
         oprot.trans.flush()
 
-    def process_postSnsInvitationMessage(self, seqid, iprot, oprot):
-        args = postSnsInvitationMessage_args()
+    def process_retrieveOpenIdAuthUrlWithDocomo(self, seqid, iprot, oprot):
+        args = retrieveOpenIdAuthUrlWithDocomo_args()
         args.read(iprot)
         iprot.readMessageEnd()
-        result = postSnsInvitationMessage_result()
+        result = retrieveOpenIdAuthUrlWithDocomo_result()
         try:
-            self._handler.postSnsInvitationMessage(args.snsIdType, args.snsAccessToken, args.toSnsUserId)
+            result.success = self._handler.retrieveOpenIdAuthUrlWithDocomo()
             msg_type = TMessageType.REPLY
         except (TTransport.TTransportException, KeyboardInterrupt, SystemExit):
             raise
@@ -245,7 +276,29 @@ class Processor(Iface, TProcessor):
             msg_type = TMessageType.EXCEPTION
             logging.exception(ex)
             result = TApplicationException(TApplicationException.INTERNAL_ERROR, 'Internal error')
-        oprot.writeMessageBegin("postSnsInvitationMessage", msg_type, seqid)
+        oprot.writeMessageBegin("retrieveOpenIdAuthUrlWithDocomo", msg_type, seqid)
+        result.write(oprot)
+        oprot.writeMessageEnd()
+        oprot.trans.flush()
+
+    def process_retrieveRequestToken(self, seqid, iprot, oprot):
+        args = retrieveRequestToken_args()
+        args.read(iprot)
+        iprot.readMessageEnd()
+        result = retrieveRequestToken_result()
+        try:
+            result.success = self._handler.retrieveRequestToken(args.carrier)
+            msg_type = TMessageType.REPLY
+        except (TTransport.TTransportException, KeyboardInterrupt, SystemExit):
+            raise
+        except TalkException as e:
+            msg_type = TMessageType.REPLY
+            result.e = e
+        except Exception as ex:
+            msg_type = TMessageType.EXCEPTION
+            logging.exception(ex)
+            result = TApplicationException(TApplicationException.INTERNAL_ERROR, 'Internal error')
+        oprot.writeMessageBegin("retrieveRequestToken", msg_type, seqid)
         result.write(oprot)
         oprot.writeMessageEnd()
         oprot.trans.flush()
@@ -253,29 +306,29 @@ class Processor(Iface, TProcessor):
 # HELPER FUNCTIONS AND STRUCTURES
 
 
-class getSnsFriends_args(object):
+class checkUserAge_args(object):
     """
     Attributes:
-     - snsIdType
-     - snsAccessToken
-     - startIdx
-     - limit
+     - carrier
+     - sessionId
+     - verifier
+     - standardAge
     """
 
     thrift_spec = (
         None,  # 0
         None,  # 1
-        (2, TType.I32, 'snsIdType', None, None, ),  # 2
-        (3, TType.STRING, 'snsAccessToken', 'UTF8', None, ),  # 3
-        (4, TType.I32, 'startIdx', None, None, ),  # 4
-        (5, TType.I32, 'limit', None, None, ),  # 5
+        (2, TType.I32, 'carrier', None, None, ),  # 2
+        (3, TType.STRING, 'sessionId', 'UTF8', None, ),  # 3
+        (4, TType.STRING, 'verifier', 'UTF8', None, ),  # 4
+        (5, TType.I32, 'standardAge', None, None, ),  # 5
     )
 
-    def __init__(self, snsIdType=None, snsAccessToken=None, startIdx=None, limit=None,):
-        self.snsIdType = snsIdType
-        self.snsAccessToken = snsAccessToken
-        self.startIdx = startIdx
-        self.limit = limit
+    def __init__(self, carrier=None, sessionId=None, verifier=None, standardAge=None,):
+        self.carrier = carrier
+        self.sessionId = sessionId
+        self.verifier = verifier
+        self.standardAge = standardAge
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -288,22 +341,22 @@ class getSnsFriends_args(object):
                 break
             if fid == 2:
                 if ftype == TType.I32:
-                    self.snsIdType = iprot.readI32()
+                    self.carrier = iprot.readI32()
                 else:
                     iprot.skip(ftype)
             elif fid == 3:
                 if ftype == TType.STRING:
-                    self.snsAccessToken = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                    self.sessionId = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
             elif fid == 4:
-                if ftype == TType.I32:
-                    self.startIdx = iprot.readI32()
+                if ftype == TType.STRING:
+                    self.verifier = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
             elif fid == 5:
                 if ftype == TType.I32:
-                    self.limit = iprot.readI32()
+                    self.standardAge = iprot.readI32()
                 else:
                     iprot.skip(ftype)
             else:
@@ -315,22 +368,22 @@ class getSnsFriends_args(object):
         if oprot._fast_encode is not None and self.thrift_spec is not None:
             oprot.trans.write(oprot._fast_encode(self, (self.__class__, self.thrift_spec)))
             return
-        oprot.writeStructBegin('getSnsFriends_args')
-        if self.snsIdType is not None:
-            oprot.writeFieldBegin('snsIdType', TType.I32, 2)
-            oprot.writeI32(self.snsIdType)
+        oprot.writeStructBegin('checkUserAge_args')
+        if self.carrier is not None:
+            oprot.writeFieldBegin('carrier', TType.I32, 2)
+            oprot.writeI32(self.carrier)
             oprot.writeFieldEnd()
-        if self.snsAccessToken is not None:
-            oprot.writeFieldBegin('snsAccessToken', TType.STRING, 3)
-            oprot.writeString(self.snsAccessToken.encode('utf-8') if sys.version_info[0] == 2 else self.snsAccessToken)
+        if self.sessionId is not None:
+            oprot.writeFieldBegin('sessionId', TType.STRING, 3)
+            oprot.writeString(self.sessionId.encode('utf-8') if sys.version_info[0] == 2 else self.sessionId)
             oprot.writeFieldEnd()
-        if self.startIdx is not None:
-            oprot.writeFieldBegin('startIdx', TType.I32, 4)
-            oprot.writeI32(self.startIdx)
+        if self.verifier is not None:
+            oprot.writeFieldBegin('verifier', TType.STRING, 4)
+            oprot.writeString(self.verifier.encode('utf-8') if sys.version_info[0] == 2 else self.verifier)
             oprot.writeFieldEnd()
-        if self.limit is not None:
-            oprot.writeFieldBegin('limit', TType.I32, 5)
-            oprot.writeI32(self.limit)
+        if self.standardAge is not None:
+            oprot.writeFieldBegin('standardAge', TType.I32, 5)
+            oprot.writeI32(self.standardAge)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -350,7 +403,7 @@ class getSnsFriends_args(object):
         return not (self == other)
 
 
-class getSnsFriends_result(object):
+class checkUserAge_result(object):
     """
     Attributes:
      - success
@@ -358,7 +411,7 @@ class getSnsFriends_result(object):
     """
 
     thrift_spec = (
-        (0, TType.STRUCT, 'success', (SnsFriends, SnsFriends.thrift_spec), None, ),  # 0
+        (0, TType.I32, 'success', None, None, ),  # 0
         (1, TType.STRUCT, 'e', (TalkException, TalkException.thrift_spec), None, ),  # 1
     )
 
@@ -376,9 +429,8 @@ class getSnsFriends_result(object):
             if ftype == TType.STOP:
                 break
             if fid == 0:
-                if ftype == TType.STRUCT:
-                    self.success = SnsFriends()
-                    self.success.read(iprot)
+                if ftype == TType.I32:
+                    self.success = iprot.readI32()
                 else:
                     iprot.skip(ftype)
             elif fid == 1:
@@ -396,10 +448,10 @@ class getSnsFriends_result(object):
         if oprot._fast_encode is not None and self.thrift_spec is not None:
             oprot.trans.write(oprot._fast_encode(self, (self.__class__, self.thrift_spec)))
             return
-        oprot.writeStructBegin('getSnsFriends_result')
+        oprot.writeStructBegin('checkUserAge_result')
         if self.success is not None:
-            oprot.writeFieldBegin('success', TType.STRUCT, 0)
-            self.success.write(oprot)
+            oprot.writeFieldBegin('success', TType.I32, 0)
+            oprot.writeI32(self.success)
             oprot.writeFieldEnd()
         if self.e is not None:
             oprot.writeFieldBegin('e', TType.STRUCT, 1)
@@ -423,23 +475,26 @@ class getSnsFriends_result(object):
         return not (self == other)
 
 
-class getSnsMyProfile_args(object):
+class checkUserAgeWithDocomo_args(object):
     """
     Attributes:
-     - snsIdType
-     - snsAccessToken
+     - openIdRedirectUrl
+     - standardAge
+     - verifier
     """
 
     thrift_spec = (
         None,  # 0
         None,  # 1
-        (2, TType.I32, 'snsIdType', None, None, ),  # 2
-        (3, TType.STRING, 'snsAccessToken', 'UTF8', None, ),  # 3
+        (2, TType.STRING, 'openIdRedirectUrl', 'UTF8', None, ),  # 2
+        (3, TType.I32, 'standardAge', None, None, ),  # 3
+        (4, TType.STRING, 'verifier', 'UTF8', None, ),  # 4
     )
 
-    def __init__(self, snsIdType=None, snsAccessToken=None,):
-        self.snsIdType = snsIdType
-        self.snsAccessToken = snsAccessToken
+    def __init__(self, openIdRedirectUrl=None, standardAge=None, verifier=None,):
+        self.openIdRedirectUrl = openIdRedirectUrl
+        self.standardAge = standardAge
+        self.verifier = verifier
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -451,167 +506,18 @@ class getSnsMyProfile_args(object):
             if ftype == TType.STOP:
                 break
             if fid == 2:
-                if ftype == TType.I32:
-                    self.snsIdType = iprot.readI32()
+                if ftype == TType.STRING:
+                    self.openIdRedirectUrl = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
             elif fid == 3:
-                if ftype == TType.STRING:
-                    self.snsAccessToken = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, (self.__class__, self.thrift_spec)))
-            return
-        oprot.writeStructBegin('getSnsMyProfile_args')
-        if self.snsIdType is not None:
-            oprot.writeFieldBegin('snsIdType', TType.I32, 2)
-            oprot.writeI32(self.snsIdType)
-            oprot.writeFieldEnd()
-        if self.snsAccessToken is not None:
-            oprot.writeFieldBegin('snsAccessToken', TType.STRING, 3)
-            oprot.writeString(self.snsAccessToken.encode('utf-8') if sys.version_info[0] == 2 else self.snsAccessToken)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class getSnsMyProfile_result(object):
-    """
-    Attributes:
-     - success
-     - e
-    """
-
-    thrift_spec = (
-        (0, TType.STRUCT, 'success', (SnsProfile, SnsProfile.thrift_spec), None, ),  # 0
-        (1, TType.STRUCT, 'e', (TalkException, TalkException.thrift_spec), None, ),  # 1
-    )
-
-    def __init__(self, success=None, e=None,):
-        self.success = success
-        self.e = e
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, (self.__class__, self.thrift_spec))
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 0:
-                if ftype == TType.STRUCT:
-                    self.success = SnsProfile()
-                    self.success.read(iprot)
-                else:
-                    iprot.skip(ftype)
-            elif fid == 1:
-                if ftype == TType.STRUCT:
-                    self.e = TalkException()
-                    self.e.read(iprot)
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, (self.__class__, self.thrift_spec)))
-            return
-        oprot.writeStructBegin('getSnsMyProfile_result')
-        if self.success is not None:
-            oprot.writeFieldBegin('success', TType.STRUCT, 0)
-            self.success.write(oprot)
-            oprot.writeFieldEnd()
-        if self.e is not None:
-            oprot.writeFieldBegin('e', TType.STRUCT, 1)
-            self.e.write(oprot)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class postSnsInvitationMessage_args(object):
-    """
-    Attributes:
-     - snsIdType
-     - snsAccessToken
-     - toSnsUserId
-    """
-
-    thrift_spec = (
-        None,  # 0
-        None,  # 1
-        (2, TType.I32, 'snsIdType', None, None, ),  # 2
-        (3, TType.STRING, 'snsAccessToken', 'UTF8', None, ),  # 3
-        (4, TType.STRING, 'toSnsUserId', 'UTF8', None, ),  # 4
-    )
-
-    def __init__(self, snsIdType=None, snsAccessToken=None, toSnsUserId=None,):
-        self.snsIdType = snsIdType
-        self.snsAccessToken = snsAccessToken
-        self.toSnsUserId = toSnsUserId
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, (self.__class__, self.thrift_spec))
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 2:
                 if ftype == TType.I32:
-                    self.snsIdType = iprot.readI32()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 3:
-                if ftype == TType.STRING:
-                    self.snsAccessToken = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                    self.standardAge = iprot.readI32()
                 else:
                     iprot.skip(ftype)
             elif fid == 4:
                 if ftype == TType.STRING:
-                    self.toSnsUserId = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                    self.verifier = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
             else:
@@ -623,18 +529,18 @@ class postSnsInvitationMessage_args(object):
         if oprot._fast_encode is not None and self.thrift_spec is not None:
             oprot.trans.write(oprot._fast_encode(self, (self.__class__, self.thrift_spec)))
             return
-        oprot.writeStructBegin('postSnsInvitationMessage_args')
-        if self.snsIdType is not None:
-            oprot.writeFieldBegin('snsIdType', TType.I32, 2)
-            oprot.writeI32(self.snsIdType)
+        oprot.writeStructBegin('checkUserAgeWithDocomo_args')
+        if self.openIdRedirectUrl is not None:
+            oprot.writeFieldBegin('openIdRedirectUrl', TType.STRING, 2)
+            oprot.writeString(self.openIdRedirectUrl.encode('utf-8') if sys.version_info[0] == 2 else self.openIdRedirectUrl)
             oprot.writeFieldEnd()
-        if self.snsAccessToken is not None:
-            oprot.writeFieldBegin('snsAccessToken', TType.STRING, 3)
-            oprot.writeString(self.snsAccessToken.encode('utf-8') if sys.version_info[0] == 2 else self.snsAccessToken)
+        if self.standardAge is not None:
+            oprot.writeFieldBegin('standardAge', TType.I32, 3)
+            oprot.writeI32(self.standardAge)
             oprot.writeFieldEnd()
-        if self.toSnsUserId is not None:
-            oprot.writeFieldBegin('toSnsUserId', TType.STRING, 4)
-            oprot.writeString(self.toSnsUserId.encode('utf-8') if sys.version_info[0] == 2 else self.toSnsUserId)
+        if self.verifier is not None:
+            oprot.writeFieldBegin('verifier', TType.STRING, 4)
+            oprot.writeString(self.verifier.encode('utf-8') if sys.version_info[0] == 2 else self.verifier)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -654,18 +560,20 @@ class postSnsInvitationMessage_args(object):
         return not (self == other)
 
 
-class postSnsInvitationMessage_result(object):
+class checkUserAgeWithDocomo_result(object):
     """
     Attributes:
+     - success
      - e
     """
 
     thrift_spec = (
-        None,  # 0
+        (0, TType.STRUCT, 'success', (AgeCheckDocomoResult, AgeCheckDocomoResult.thrift_spec), None, ),  # 0
         (1, TType.STRUCT, 'e', (TalkException, TalkException.thrift_spec), None, ),  # 1
     )
 
-    def __init__(self, e=None,):
+    def __init__(self, success=None, e=None,):
+        self.success = success
         self.e = e
 
     def read(self, iprot):
@@ -677,7 +585,13 @@ class postSnsInvitationMessage_result(object):
             (fname, ftype, fid) = iprot.readFieldBegin()
             if ftype == TType.STOP:
                 break
-            if fid == 1:
+            if fid == 0:
+                if ftype == TType.STRUCT:
+                    self.success = AgeCheckDocomoResult()
+                    self.success.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            elif fid == 1:
                 if ftype == TType.STRUCT:
                     self.e = TalkException()
                     self.e.read(iprot)
@@ -692,7 +606,259 @@ class postSnsInvitationMessage_result(object):
         if oprot._fast_encode is not None and self.thrift_spec is not None:
             oprot.trans.write(oprot._fast_encode(self, (self.__class__, self.thrift_spec)))
             return
-        oprot.writeStructBegin('postSnsInvitationMessage_result')
+        oprot.writeStructBegin('checkUserAgeWithDocomo_result')
+        if self.success is not None:
+            oprot.writeFieldBegin('success', TType.STRUCT, 0)
+            self.success.write(oprot)
+            oprot.writeFieldEnd()
+        if self.e is not None:
+            oprot.writeFieldBegin('e', TType.STRUCT, 1)
+            self.e.write(oprot)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class retrieveOpenIdAuthUrlWithDocomo_args(object):
+
+    thrift_spec = (
+    )
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, (self.__class__, self.thrift_spec))
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, (self.__class__, self.thrift_spec)))
+            return
+        oprot.writeStructBegin('retrieveOpenIdAuthUrlWithDocomo_args')
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class retrieveOpenIdAuthUrlWithDocomo_result(object):
+    """
+    Attributes:
+     - success
+     - e
+    """
+
+    thrift_spec = (
+        (0, TType.STRING, 'success', 'UTF8', None, ),  # 0
+        (1, TType.STRUCT, 'e', (TalkException, TalkException.thrift_spec), None, ),  # 1
+    )
+
+    def __init__(self, success=None, e=None,):
+        self.success = success
+        self.e = e
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, (self.__class__, self.thrift_spec))
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 0:
+                if ftype == TType.STRING:
+                    self.success = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 1:
+                if ftype == TType.STRUCT:
+                    self.e = TalkException()
+                    self.e.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, (self.__class__, self.thrift_spec)))
+            return
+        oprot.writeStructBegin('retrieveOpenIdAuthUrlWithDocomo_result')
+        if self.success is not None:
+            oprot.writeFieldBegin('success', TType.STRING, 0)
+            oprot.writeString(self.success.encode('utf-8') if sys.version_info[0] == 2 else self.success)
+            oprot.writeFieldEnd()
+        if self.e is not None:
+            oprot.writeFieldBegin('e', TType.STRUCT, 1)
+            self.e.write(oprot)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class retrieveRequestToken_args(object):
+    """
+    Attributes:
+     - carrier
+    """
+
+    thrift_spec = (
+        None,  # 0
+        None,  # 1
+        (2, TType.I32, 'carrier', None, None, ),  # 2
+    )
+
+    def __init__(self, carrier=None,):
+        self.carrier = carrier
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, (self.__class__, self.thrift_spec))
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 2:
+                if ftype == TType.I32:
+                    self.carrier = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, (self.__class__, self.thrift_spec)))
+            return
+        oprot.writeStructBegin('retrieveRequestToken_args')
+        if self.carrier is not None:
+            oprot.writeFieldBegin('carrier', TType.I32, 2)
+            oprot.writeI32(self.carrier)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class retrieveRequestToken_result(object):
+    """
+    Attributes:
+     - success
+     - e
+    """
+
+    thrift_spec = (
+        (0, TType.STRUCT, 'success', (AgeCheckRequestResult, AgeCheckRequestResult.thrift_spec), None, ),  # 0
+        (1, TType.STRUCT, 'e', (TalkException, TalkException.thrift_spec), None, ),  # 1
+    )
+
+    def __init__(self, success=None, e=None,):
+        self.success = success
+        self.e = e
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, (self.__class__, self.thrift_spec))
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 0:
+                if ftype == TType.STRUCT:
+                    self.success = AgeCheckRequestResult()
+                    self.success.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            elif fid == 1:
+                if ftype == TType.STRUCT:
+                    self.e = TalkException()
+                    self.e.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, (self.__class__, self.thrift_spec)))
+            return
+        oprot.writeStructBegin('retrieveRequestToken_result')
+        if self.success is not None:
+            oprot.writeFieldBegin('success', TType.STRUCT, 0)
+            self.success.write(oprot)
+            oprot.writeFieldEnd()
         if self.e is not None:
             oprot.writeFieldBegin('e', TType.STRUCT, 1)
             self.e.write(oprot)
