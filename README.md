@@ -1,10 +1,9 @@
-# Arif
-BOT PROTECT PY3 ANTI JS LINE🐦FIXS UPDATE 25 JULI 2018
+# UPDATE TANGGAL 20 OCT 2018
 ------
 GET TOKEN :
 ------
-- `Google Chrome`
-- `http://101.255.95.249:6969`
+- `IOSPAD(304)`
+- `8.14.2`
 -
 Cara Install Bot :
 ------
@@ -27,7 +26,7 @@ Di C9 SERVER/ VPS :
 - `sudo pip3 install youtube_dl`
 - `git clone https://github.com/arifistifik/2019`
 - `cd 2019`
-- `python antijs.py`
+- `python prosb.py`
 
 INSTALL Di TERMUX :
 - `pkg update`
@@ -48,25 +47,23 @@ INSTALL Di TERMUX :
 - `pip3 install tweepy`
 - `git clone https://github.com/arifistifik/2019`
 - `cd 2019`
-- `python3 antijs.py`
+- `python3 prosb.py`
 
 Cara Menjalankan Bot Kembali :
 ------
 Di C9 :
 - `cd 2019`
-- `python3 antijs.py`
+- `python3 prosb.py`
 
 Di Termux :
 - `cd 2019`
-- `python3 antijs.py`
+- `python3 prosb.py`
 
 
 EDITOR BY ARIFISTIFIK
 ------
 - `Add My ID LINE : arifistifik`
-- `Sambil nonton youtue biar cepet paham yang blom tau. dulu aku juga gitu 😊. Youtube me : ARIFISTIFIK`
-#cuma saran bukan menggurui 😅
-#aku juga masih pekok kuadrat😊
+
 Thx To :
 ------
 - `SEMUANYA SEMUANYA`
