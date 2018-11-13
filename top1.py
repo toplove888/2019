@@ -37,10 +37,10 @@ channel3 = LineChannel(kc)
 kc.log("Channel Access Token : " + str(channel3.channelAccessToken))
 poll = LinePoll(cl)
 call = cl
-creator = ["ud296655acef67cbd5e8208e63629f78b"]
-owner = ["ud296655acef67cbd5e8208e63629f78b"]
-admin = ["ud296655acef67cbd5e8208e63629f78b"]
-staff = ["ud296655acef67cbd5e8208e63629f78b"]
+creator = ["ufd41ca6ba4c2d767fb708d8389a887ae"]
+owner = ["ufd41ca6ba4c2d767fb708d8389a887ae"]
+admin = ["ufd41ca6ba4c2d767fb708d8389a887ae"]
+staff = ["ufd41ca6ba4c2d767fb708d8389a887ae"]
 myMid = cl.profile.mid
 mid = cl.getProfile().mid
 Amid = ki.getProfile().mid
@@ -313,41 +313,41 @@ def help():
                   "╭━━━━━━━━━━━━━━━━\n" + \
                   "║╭❉ HELP MESSAGE\n" + \
                   "║┝───────────────" + "\n" + \
-                  "║│ " + key + "help2\n" + \
-                  "║│ " + key + "help3\n" + \
+                  "║│ " + key + "คำสั่ง2\n" + \
+                  "║│ " + key + "คำสั่ง3\n" + \
                   "║┝─[❇SELF COMMAND❇]" + "\n" + \
-                  "║│ " + key + "Me\n" + \
-                  "║│ " + key + "Mid「@」\n" + \
-                  "║│ " + key + "Info「@」\n" + \
-                  "║│ " + key + "Nk「@」\n" + \
-                  "║│ " + key + "Kick1「@」\n" + \
-                  "║│ " + key + "Mybot\n" + \
-                  "║│ " + key + "Status\n" + \
+                  "║│ " + key + "คท\n" + \
+                  "║│ " + key + "ไอดี「@」\n" + \
+                  "║│ " + key + "ข้อมูล「@」\n" + \
+                  "║│ " + key + "เตะ「@」\n" + \
+                  "║│ " + key + "K1「@」\n" + \
+                  "║│ " + key + "บอท\n" + \
+                  "║│ " + key + "ตัส\n" + \
                   "║│ " + key + "About\n" + \
-                  "║│ " + key + "Restart\n" + \
-                  "║│ " + key + "Runtime\n" + \
-                  "║│ " + key + "Creator\n" + \
+                  "║│ " + key + "รีบอท\n" + \
+                  "║│ " + key + "ออน\n" + \
+                  "║│ " + key + "ผส\n" + \
                   "║│ " + key + "Speed/Sp\n" + \
-                  "║│ " + key + "Sprespon\n" + \
+                  "║│ " + key + "ความเร็ว\n" + \
 				  "║┝───────────────\n" + \
                   "║┝─[❇GRUP COMMAND❇]" + "\n" + \
-                  "║│ " + key + "Tagall\n" + \
-                  "║│ " + key + "Joinall\n" + \
-                  "║│ " + key + "Byeall\n" + \
-                  "║│ " + key + "Byeme\n" + \
-                  "║│ " + key + "Leave「Namagrup」\n" + \
-                  "║│ " + key + "Ginfo\n" + \
-                  "║│ " + key + "Open\n" + \
-                  "║│ " + key + "Close\n" + \
-                  "║│ " + key + "Url grup\n" + \
-                  "║│ " + key + "Gruplist\n" + \
-                  "║│ " + key + "Infogrup「angka」\n" + \
+                  "║│ " + key + "แทค\n" + \
+                  "║│ " + key + "เข้าหมด\n" + \
+                  "║│ " + key + "ออกหมด\n" + \
+                  "║│ " + key + "ออก\n" + \
+                  "║│ " + key + "เข้า「ชื่อกลุ่ม」\n" + \
+                  "║│ " + key + "ข้อมูลกลุ่ม\n" + \
+                  "║│ " + key + "เปิด\n" + \
+                  "║│ " + key + "ปิด\n" + \
+                  "║│ " + key + "ลิ้ง\n" + \
+                  "║│ " + key + "รายชื่อกลุ่ม\n" + \
+                  "║│ " + key + "ข้อมูลกลุ่ม「angka」\n" + \
                   "║│ " + key + "Infomem「angka」\n" + \
-                  "║│ " + key + "Remove chat\n" + \
-                  "║│ " + key + "Lurking「on/off」\n" + \
-                  "║│ " + key + "Lurkers\n" + \
+                  "║│ " + key + "ลบแชท\n" + \
+                  "║│ " + key + "ส่อง「เปิด/ปิด」\n" + \
+                  "║│ " + key + "มอง\n" + \
                   "║│ " + key + "Sider「on/off」\n" + \
-                  "║│ " + key + "Updatefoto\n" + \
+                  "║│ " + key + "อัพดิส\n" + \
                   "║│ " + key + "Updategrup\n" + \
                   "║│ " + key + "Updatebot\n" + \
                   "║│ " + key + "Broadcast:「Text」\n" + \
@@ -359,9 +359,9 @@ def help():
                   "║│ " + key + "Musik:「Judul Musik」\n" + \
                   "║│ " + key + "Ytmp4:「Judul Video」\n" + \
                   "║│ " + key + "Spamtag:「angka」\n" + \
-                  "║│ " + key + "Spamtag「@」\n" + \
-                  "║│ " + key + "Spamcall:「jml」\n" + \
-                  "║│ " + key + "Spamcall\n" + \
+                  "║│ " + key + "แทค「@」\n" + \
+                  "║│ " + key + "รันโทร:「jml」\n" + \
+                  "║│ " + key + "โทร\n" + \
                   "║╰❉──────────────\n" + \
                   "╰━━━━━━━━━━━━━━━━\n" + \
                   "━━━━┅═❉ই۝ई❉═┅━━━━"
